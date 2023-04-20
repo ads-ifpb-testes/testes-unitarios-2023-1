@@ -1,24 +1,27 @@
+import seriesRepository from "./series.repository";
 class SeriesService {
-  constructor() {
-    this.series = [];
-  }
+  constructor() {}
 
   add(serie) {
     const contemTitulo = "titulo" in serie && serie.titulo !== "";
     if (!contemTitulo) {
       throw Error("Série não contem titulo");
     }
-    const serieExistente = this.series.some(
-      (serieSalva) => serieSalva.titulo === serie.titulo
-    );
+    if (serie.ano > new Date().getFullYear()) {
+      throw Error("Não é possível cadastrar séries futuras");
+    }
+    if (serie.genero === undefined || serie.genero.length === 0) {
+      throw Error("Não é possível cadastrar séries sem gênero");
+    }
+    const serieExistente = seriesRepository.buscar(serie);
     if (serieExistente) {
       throw Error("A série já está cadastrada");
     }
-    return this.series.push(serie);
+    return seriesRepository.adicionar(serie);
   }
 
   getQtdeSeries() {
-    return this.series.length;
+    return seriesRepository.getQtde();
   }
 }
 
