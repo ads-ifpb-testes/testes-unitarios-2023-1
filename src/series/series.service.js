@@ -14,9 +14,9 @@ class SeriesService {
       throw Error("Não é possível cadastrar séries sem gênero");
     }
     const serieExistente = seriesRepository.buscar(serie);
-    if (serieExistente) {
-      throw Error("A série já está cadastrada");
-    }
+    // if (serieExistente) {
+    //   throw Error("A série já está cadastrada");
+    // }
     return seriesRepository.adicionar(serie);
   }
 
